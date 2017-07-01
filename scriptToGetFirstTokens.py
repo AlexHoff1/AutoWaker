@@ -2,11 +2,12 @@
 import base64
 import urllib2
 import urllib
+from ClientSecretExtractor import getClientSecret
 
 
 #From the developer site
 OAuthTwoClientID = "228FD6"
-ClientOrConsumerSecret = "610c6ae5d58a1ab615f2141ff8ece598"
+ClientOrConsumerSecret = getClientSecret()
 
 #This is the Fitbit URL
 TokenURL = "https://api.fitbit.com/oauth2/token"

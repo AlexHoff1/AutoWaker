@@ -3,13 +3,13 @@ import urllib2
 import base64
 import json
 import logging
-
+import ClientSecretExtractor
 
 LOG = logging.getLogger(name="autoWaker")
 
 #From the developer site
 OAuthTwoClientID = "228FD6"
-ClientOrConsumerSecret = "610c6ae5d58a1ab615f2141ff8ece598"
+ClientOrConsumerSecret = ClientSecretExtractor.getClientSecret()
 
 #Will need to change that...
 """
