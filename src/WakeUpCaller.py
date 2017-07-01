@@ -1,11 +1,9 @@
-import winsound
 import datetime
 import time
 import logging
 import os
 import pyaudio
 import wave
-import sys
 
 LOG = logging.getLogger(name="autoWaker")
 
