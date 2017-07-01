@@ -1,0 +1,95 @@
+2017-06-28 19:05:18,157 INFO STARTING
+2017-06-28 19:05:18,158 INFO Trying to open the file containing the Tokens.
+2017-06-28 19:05:18,163 INFO Trying to retrieve the data.
+2017-06-28 19:05:18,164 INFO Successfully closed the file that contains current tokens.
+2017-06-28 19:05:18,164 INFO Stripping the newline and whitespace from tokens.
+2017-06-28 19:05:18,164 INFO The passed access_token to MakeAPICall is eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1VDIzUjYiLCJhdWQiOiIyMjhGRDYiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJyc29jIHJhY3QgcnNldCBybG9jIHJ3ZWkgcmhyIHJwcm8gcm51dCByc2xlIiwiZXhwIjoxNDk4Njc4ODUwLCJpYXQiOjE0OTg2NTAwNTB9.wWoTMjLP3yO92o2aWk8Yh4WB_-gYb2SC6wbGd_uS3LY
+2017-06-28 19:05:18,164 INFO Trying to open the URL
+2017-06-28 19:05:18,417 INFO Call to the URL failed.
+2017-06-28 19:05:18,418 INFO ERROR message: 
+   {"errors":[{"errorType":"expired_token","message":"Access token expired: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1VDIzUjYiLCJhdWQiOiIyMjhGRDYiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJyc29jIHJhY3QgcnNldCBybG9jIHJ3ZWkgcmhyIHJwcm8gcm51dCByc2xlIiwiZXhwIjoxNDk4Njc4ODUwLCJpYXQiOjE0OTg2NTAwNTB9.wWoTMjLP3yO92o2aWk8Yh4WB_-gYb2SC6wbGd_uS3LY. Visit https://dev.fitbit.com/docs/oauth2 for more information on the Fitbit Web API authorization process."}],"success":false}
+2017-06-28 19:05:18,420 INFO ERROR was out of date tokens, refreshing tokens.
+2017-06-28 19:05:18,420 INFO Refresh token: 52e0a53645a61760df6f9343e20b9adcd685ef4a062fc7e7175913c97a531dfd
+2017-06-28 19:05:18,648 INFO Writing new tokens to the config file
+2017-06-28 19:05:18,648 INFO Writing this: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1VDIzUjYiLCJhdWQiOiIyMjhGRDYiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJyc29jIHJhY3QgcnNldCBybG9jIHJ3ZWkgcmhyIHJwcm8gcm51dCByc2xlIiwiZXhwIjoxNDk4NzMwNzE5LCJpYXQiOjE0OTg3MDE5MTl9.nxd-zuifiz-5Iskn2EWBJcTxVeLk8y7C8EuuJUQwq64 and 243d07e0bf811968eb6af67236f77e14a003223c7e0439e9cfce48fdf45226bc
+2017-06-28 19:05:18,653 INFO The passed access_token to MakeAPICall is eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1VDIzUjYiLCJhdWQiOiIyMjhGRDYiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJyc29jIHJhY3QgcnNldCBybG9jIHJ3ZWkgcmhyIHJwcm8gcm51dCByc2xlIiwiZXhwIjoxNDk4NzMwNzE5LCJpYXQiOjE0OTg3MDE5MTl9.nxd-zuifiz-5Iskn2EWBJcTxVeLk8y7C8EuuJUQwq64
+2017-06-28 19:05:18,653 INFO Trying to open the URL
+2017-06-28 19:05:18,793 INFO Reading the response
+2017-06-28 19:05:18,802 INFO Writing the data to a file.
+2017-06-28 19:05:18,825 INFO Successfully wrote data to file.
+2017-06-28 19:05:18,826 INFO Call to the URL succeeded.
+2017-06-28 19:05:18,828 INFO Opening the file: C:\Users\Owner\Documents\Code\MyData.txt
+2017-06-28 19:05:18,828 INFO Reading from the file
+2017-06-28 19:05:18,828 INFO Closing the file.
+2017-06-28 19:05:18,829 INFO Trying to see whether the person has already woken up.
+2017-06-28 19:05:18,829 INFO Sleep has not yet ended.
+2017-06-28 19:24:13,723 INFO STARTING
+2017-06-28 19:24:13,723 INFO Pinging every 120 seconds to check if the person should be asleep.
+2017-06-28 19:26:13,723 INFO Pinging every 120 seconds to check if the person should be asleep.
+2017-06-28 19:28:13,724 INFO Pinging every 120 seconds to check if the person should be asleep.
+2017-06-28 19:30:13,726 INFO Pinging every 120 seconds to check if the person should be asleep.
+2017-06-28 19:32:13,726 INFO Pinging every 120 seconds to check if the person should be asleep.
+2017-06-28 19:34:13,726 INFO Pinging every 120 seconds to check if the person should be asleep.
+2017-06-28 19:36:13,726 INFO Pinging every 120 seconds to check if the person should be asleep.
+2017-06-28 19:38:13,727 INFO Pinging every 120 seconds to check if the person should be asleep.
+2017-06-28 19:40:13,729 INFO Pinging every 120 seconds to check if the person should be asleep.
+2017-06-28 19:42:13,730 INFO Pinging every 120 seconds to check if the person should be asleep.
+2017-06-28 19:44:13,730 INFO Pinging every 120 seconds to check if the person should be asleep.
+2017-06-28 19:46:13,730 INFO Pinging every 120 seconds to check if the person should be asleep.
+2017-06-28 19:48:13,732 INFO Pinging every 120 seconds to check if the person should be asleep.
+2017-06-28 19:50:13,732 INFO Pinging every 120 seconds to check if the person should be asleep.
+2017-06-28 19:52:13,733 INFO Pinging every 120 seconds to check if the person should be asleep.
+2017-06-28 19:54:13,733 INFO Pinging every 120 seconds to check if the person should be asleep.
+2017-06-28 19:56:13,734 INFO Pinging every 120 seconds to check if the person should be asleep.
+2017-06-28 19:58:13,734 INFO Pinging every 120 seconds to check if the person should be asleep.
+2017-06-28 20:00:13,734 INFO Pinging every 120 seconds to check if the person should be asleep.
+2017-06-28 20:02:13,734 INFO Pinging every 120 seconds to check if the person should be asleep.
+2017-06-28 20:04:13,736 INFO Pinging every 120 seconds to check if the person should be asleep.
+2017-06-28 20:06:13,736 INFO Pinging every 120 seconds to check if the person should be asleep.
+2017-06-28 20:08:13,737 INFO Pinging every 120 seconds to check if the person should be asleep.
+2017-06-28 20:10:13,737 INFO Pinging every 120 seconds to check if the person should be asleep.
+2017-06-28 20:12:13,739 INFO Pinging every 120 seconds to check if the person should be asleep.
+2017-06-28 20:14:13,740 INFO Pinging every 120 seconds to check if the person should be asleep.
+2017-06-28 20:16:13,740 INFO Pinging every 120 seconds to check if the person should be asleep.
+2017-06-28 20:18:13,742 INFO Pinging every 120 seconds to check if the person should be asleep.
+2017-06-28 20:20:13,742 INFO Pinging every 120 seconds to check if the person should be asleep.
+2017-06-28 20:22:13,743 INFO Pinging every 120 seconds to check if the person should be asleep.
+2017-06-28 20:24:13,743 INFO Pinging every 120 seconds to check if the person should be asleep.
+2017-06-28 20:26:13,744 INFO Pinging every 120 seconds to check if the person should be asleep.
+2017-06-28 20:28:13,744 INFO Pinging every 120 seconds to check if the person should be asleep.
+2017-06-28 20:30:13,746 INFO Pinging every 120 seconds to check if the person should be asleep.
+2017-06-28 21:07:45,038 INFO STARTING
+2017-06-28 21:07:45,038 INFO Pinging every 120 seconds to check if the person should be asleep.
+2017-06-28 21:09:45,039 INFO Pinging every 120 seconds to check if the person should be asleep.
+2017-06-28 21:11:45,039 INFO Pinging every 120 seconds to check if the person should be asleep.
+2017-06-28 21:13:45,039 INFO Pinging every 120 seconds to check if the person should be asleep.
+2017-06-28 21:15:45,040 INFO Pinging every 120 seconds to check if the person should be asleep.
+2017-06-28 21:17:45,042 INFO Pinging every 120 seconds to check if the person should be asleep.
+2017-06-28 21:19:45,042 INFO Pinging every 120 seconds to check if the person should be asleep.
+2017-06-28 21:21:45,042 INFO Pinging every 120 seconds to check if the person should be asleep.
+2017-06-28 21:23:45,043 INFO Pinging every 120 seconds to check if the person should be asleep.
+2017-06-28 21:25:45,045 INFO Pinging every 120 seconds to check if the person should be asleep.
+2017-06-28 21:27:45,045 INFO Pinging every 120 seconds to check if the person should be asleep.
+2017-06-28 21:29:45,045 INFO Pinging every 120 seconds to check if the person should be asleep.
+2017-06-28 21:31:45,046 INFO Pinging every 120 seconds to check if the person should be asleep.
+2017-06-28 21:33:45,048 INFO Pinging every 120 seconds to check if the person should be asleep.
+2017-06-28 21:35:45,048 INFO Pinging every 120 seconds to check if the person should be asleep.
+2017-06-28 21:37:45,048 INFO Pinging every 120 seconds to check if the person should be asleep.
+2017-06-28 21:39:45,049 INFO Pinging every 120 seconds to check if the person should be asleep.
+2017-06-28 21:41:45,049 INFO Pinging every 120 seconds to check if the person should be asleep.
+2017-06-28 21:43:45,049 INFO Pinging every 120 seconds to check if the person should be asleep.
+2017-06-28 21:45:45,049 INFO Pinging every 120 seconds to check if the person should be asleep.
+2017-06-28 21:47:45,049 INFO Pinging every 120 seconds to check if the person should be asleep.
+2017-06-28 21:49:45,051 INFO Pinging every 120 seconds to check if the person should be asleep.
+2017-06-28 21:51:45,051 INFO Pinging every 120 seconds to check if the person should be asleep.
+2017-06-28 21:53:45,051 INFO Pinging every 120 seconds to check if the person should be asleep.
+2017-06-28 21:55:45,051 INFO Pinging every 120 seconds to check if the person should be asleep.
+2017-06-28 21:57:45,052 INFO Pinging every 120 seconds to check if the person should be asleep.
+2017-06-28 21:59:45,052 INFO Pinging every 120 seconds to check if the person should be asleep.
+2017-06-28 22:01:45,052 INFO Pinging every 120 seconds to check if the person should be asleep.
+2017-06-28 22:03:45,052 INFO Pinging every 120 seconds to check if the person should be asleep.
+2017-06-28 22:05:45,053 INFO Pinging every 120 seconds to check if the person should be asleep.
+2017-06-28 22:07:45,053 INFO Pinging every 120 seconds to check if the person should be asleep.
+2017-06-29 07:26:18,174 INFO Pinging every 120 seconds to check if the person should be asleep.
+2017-06-29 07:28:18,180 INFO Pinging every 120 seconds to check if the person should be asleep.
+2017-06-29 07:30:18,180 INFO Pinging every 120 seconds to check if the person should be asleep.
