@@ -4,6 +4,7 @@ import logging
 import os
 import pyaudio
 import wave
+import TimeHandler
 
 LOG = logging.getLogger(name="autoWaker")
 
@@ -75,7 +76,7 @@ class WakeUpCaller():
         
         else:
             while self.shouldSleep():
-                self.stallAction()
+                TimeHandler.stallAction(30)
             LOG.info('Time to wake up!')
             self.wakeUp()
         return True
@@ -86,22 +87,18 @@ class WakeUpCaller():
         #NOTE: The important thing about this implementation is that threading
         #Could potentially change the wake time, or it could be dynamically 
         #changed here.
-        return self.getWakeTime()>datetime.datetime.now()
+        return self.getWakeTime()>TimeHandler.now()
     #END shouldSleep
     
 
-    def stallAction(self):
-        time.sleep(30)
-    #END stallAction()
     
     
     #  Currently adds 6 hours to when the person fell asleep, exactly.
     #   Future implementations will calculate this based on heart rate,
     #   sleep stages, and other various factors for more efficient times.
     def calculateWakeTime(self, sleep_start_time):
-        add6Hours = datetime.timedelta(seconds = 6*3600)
-        wake_up_time = sleep_start_time + add6Hours
-        self.setWakeTime(wake_up_time = wake_up_time)
+        wake_up_time = TimeHandler.addHours(sleep_start_time, 6)
+        self.setWakeTime(wake_up_time)
         return wake_up_time 
     #END calculateWakeTime()
 

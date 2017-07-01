@@ -1,15 +1,14 @@
 import sys
-import time
 import TokenGetter
 import APIHandler
 import DataHandler
-import wakeUpCaller
-import datetime
+import WakeUpCaller
 import logging
+import TimeHandler
 
 
 
-today = time.strftime("%Y-%m-%d")
+today = TimeHandler.today()
 #This is the Fitbit URL to use for the API call
 FitbitURLBase = "https://api.fitbit.com/1/user/-/sleep/date/"
 FitbitURL = FitbitURLBase + today + ".json"
@@ -32,9 +31,9 @@ def main():
     LOG.info('STARTING')
     
     # wait until we should start. Make this into a class or method?
-    while datetime.datetime.now().time()>datetime.time(3,0,0,0) or datetime.datetime.now().time()<datetime.time(2,0,0,0):
+    while TimeHandler.now()>TimeHandler.endCheckTime() or TimeHandler.now()<TimeHandler.startCheckTime():
         LOG.info('Pinging every 120 seconds to check if the person should be asleep.')
-        time.sleep(120)
+        TimeHandler.stallAction(120)
     
     key_getter = TokenGetter.TokenGetter(IniFile)
         
@@ -56,7 +55,7 @@ def main():
         while not sleeping:
             LOG.info('still not asleep I see...')
             sys.stdout.flush()
-            time.sleep(600)  #Check every 10 minutes.
+            TimeHandler.stallAction(600)  #Check every 10 minutes.
             APICallOK, APIResponse = api_handler.makeAPICall()
             if not APICallOK:
                 return -1
@@ -64,7 +63,7 @@ def main():
         
         #Sleeping is true now.
         LOG.info('You started sleeping at ' + str(start_time) + ' today.')
-        wake_up = wakeUpCaller.wakeUpCaller()
+        wake_up = WakeUpCaller.WakeUpCaller()
         wake_up.callWake(start_time)
         
 def setupLogger():
