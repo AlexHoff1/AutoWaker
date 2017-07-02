@@ -2,7 +2,7 @@ import unittest
 
 import ClientSecretExtractor
 
-class TestTimeHandler(unittest.TestCase):
+class TestClientSecret(unittest.TestCase):
 
     def test_client_secret_not_null(self):
         secret = ClientSecretExtractor.getClientSecret()
