@@ -5,6 +5,7 @@ import os
 import pyaudio
 import wave
 import TimeHandler
+import ConfigHandler
 
 LOG = logging.getLogger(name="autoWaker")
 
@@ -105,7 +106,7 @@ class WakeUpCaller():
  
     ############CLASS VARIABLES##############
     wake_up_time_ = None
-    wake_up_noise_ = r'C:\Users\Owner\Desktop\Code\AutoWaker\Assets\Music\mortalkombat.wav'
+    wake_up_noise_ = reduce(os.path.join,[ConfigHandler.getPath(),"Assets","Music","mortalkombat.wave"])  ############CLASS VARIABLES##############
     ############CLASS VARIABLES##############
 
 #END wakeUpCaller()

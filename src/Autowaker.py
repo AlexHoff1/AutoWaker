@@ -1,12 +1,17 @@
 import sys
+import os
+import logging
+
 import TokenGetter
 import APIHandler
 import DataHandler
 import WakeUpCaller
-import logging
 import TimeHandler
+import ConfigHandler
 
 
+#Set the proper path
+os.chdir(ConfigHandler.getPath())
 
 today = TimeHandler.today()
 #This is the Fitbit URL to use for the API call
@@ -17,8 +22,9 @@ FitbitURL = FitbitURLBase + today + ".json"
 TokenURL = "https://api.fitbit.com/oauth2/token"
 
 #Get and write the tokens from here
-IniFile = r"C:\Users\Owner\Documents\Code\tokens.txt"
-OutFile = r"C:\Users\Owner\Documents\Code\AutoWaker\Data\MyData"  + today + ".txt"
+IniFile = os.path.join(ConfigHandler.getPath(),'tokens.txt')
+s = [ConfigHandler.getPath(), 'Data', 'MyData_' + today + '.txt']
+OutFile = os.path.join(*s)
 
 #Some contants defining API error handling responses
 TokenRefreshedOK = "Token refreshed OK"
@@ -68,7 +74,8 @@ def main():
         
 def setupLogger():
     logging.basicConfig(filename='sleepDataLogs.log',level=logging.INFO, filemode ='w')
-    hdlr = logging.FileHandler(r'C:\Users\Owner\Desktop\Code\AutoWaker\Logs\sleepLogs' + today + '.log')
+    relative_log_location = [ConfigHandler.getPath(), 'Logs', 'sleepLogs' + today + '.log']
+    hdlr = logging.FileHandler(os.path.join(*relative_log_location))
     formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
     hdlr.setFormatter(formatter)
     hdlr.setLevel(logging.INFO)
