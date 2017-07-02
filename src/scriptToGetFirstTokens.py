@@ -13,7 +13,7 @@ ClientOrConsumerSecret = getClientSecret()
 TokenURL = "https://api.fitbit.com/oauth2/token"
 
 #I got this from the first verifier part when authorising my application
-AuthorisationCode = ""
+AuthorisationCode = "9dc41fb276f9875c0dea3452fe3186880b8ecae7"
 
 #Form the data payload
 BodyText = {'code' : AuthorisationCode,
@@ -21,8 +21,9 @@ BodyText = {'code' : AuthorisationCode,
             'client_id' : OAuthTwoClientID,
             'grant_type' : 'authorization_code'}
 
+
+
 BodyURLEncoded = urllib.urlencode(BodyText)
-print BodyURLEncoded
 
 #Start the request
 req = urllib2.Request(TokenURL,BodyURLEncoded)
