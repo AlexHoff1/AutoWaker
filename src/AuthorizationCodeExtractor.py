@@ -85,5 +85,5 @@ def setupTokens():
         if key == 'access_token':
             access_token = value
     
-    token_getter = TokenGetter.TokenGetter('Tokens.txt')
+    token_getter = TokenGetter.TokenGetter('tokens.txt')
     token_getter.setTokens(access_token = access_token, refresh_token = refresh_token)
