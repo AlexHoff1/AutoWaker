@@ -71,14 +71,13 @@ class OAuth2Server:
             threading.Timer(1, cherrypy.engine.exit).start()
 
 
-if __name__ == '__main__':
+def setupTokens():
     client_id = '228FD6'
     client_secret = ClientSecretExtractor.getClientSecret()
 
     server = OAuth2Server(client_id, client_secret)
     server.browser_authorize()
 
-    profile = server.fitbit.user_profile_get()
     for key, value in server.fitbit.client.session.token.items():
         print('{} = {}'.format(key, value))
         if key == 'refresh_token':
