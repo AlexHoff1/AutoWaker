@@ -2,12 +2,12 @@ import logging
 import os
 import sys
 
-import TokenGetter
 import APIHandler
-import DataHandler
-import WakeUpCaller
-import TimeHandler
 import ConfigHandler
+import DataHandler
+import TimeHandler
+import TokenGetter
+import WakeUpCaller
 
 
 #Set the proper path

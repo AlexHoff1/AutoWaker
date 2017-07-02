@@ -1,8 +1,9 @@
-import urllib
-import urllib2
 import base64
 import json
 import logging
+import urllib
+import urllib2
+
 import ClientSecretExtractor
 
 LOG = logging.getLogger(name="autoWaker")
