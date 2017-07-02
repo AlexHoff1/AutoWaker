@@ -5,9 +5,9 @@ import pyaudio
 import time
 import wave
 
-import ConfigHandler
-import SleepChecker
-import TimeHandler
+from ConfigHandler import getPath
+from SleepChecker import SleepChecker
+from TimeHandler import stallAction, now, addHours
 
 LOG = logging.getLogger(name="autoWaker")
 
@@ -56,7 +56,7 @@ class WakeUpCaller():
     
     
     def isAsleep(self):
-        sleep_checker = SleepChecker.SleepChecker()
+        sleep_checker = SleepChecker()
         return sleep_checker.isAsleep()
     #END isAsleep()
     
@@ -80,7 +80,7 @@ class WakeUpCaller():
         
         else:
             while self.shouldSleep():
-                TimeHandler.stallAction(30)
+                stallAction(30)
             LOG.info('Time to wake up!')
             self.wakeUp()
         return True
@@ -91,7 +91,7 @@ class WakeUpCaller():
         #NOTE: The important thing about this implementation is that threading
         #Could potentially change the wake time, or it could be dynamically 
         #changed here.
-        return self.getWakeTime()>TimeHandler.now()
+        return self.getWakeTime()>now()
     #END shouldSleep
     
 
@@ -101,7 +101,7 @@ class WakeUpCaller():
     #   Future implementations will calculate this based on heart rate,
     #   sleep stages, and other various factors for more efficient times.
     def calculateWakeTime(self, sleep_start_time):
-        wake_up_time = TimeHandler.addHours(sleep_start_time, 6)
+        wake_up_time = addHours(sleep_start_time, 6)
         self.setWakeTime(wake_up_time)
         return wake_up_time 
     #END calculateWakeTime()
@@ -109,7 +109,7 @@ class WakeUpCaller():
  
     ############CLASS VARIABLES##############
     wake_up_time_ = None
-    wake_up_noise_ = reduce(os.path.join,[ConfigHandler.getPath(),"Assets","Music","mortalkombat.wave"])  ############CLASS VARIABLES##############
+    wake_up_noise_ = reduce(os.path.join,[getPath(),"Assets","Music","mortalkombat.wave"])
     ############CLASS VARIABLES##############
 
 #END wakeUpCaller()

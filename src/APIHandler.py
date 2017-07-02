@@ -1,7 +1,7 @@
 import logging
 import urllib2
 
-import TokenGetter
+from TokenGetter import TokenGetter
 
 import DataWriter as writer
 LOG = logging.getLogger(name="autoWaker")

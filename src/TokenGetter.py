@@ -4,13 +4,13 @@ import logging
 import urllib
 import urllib2
 
-import ClientSecretExtractor
+from ClientSecretExtractor import getClientSecret
 
 LOG = logging.getLogger(name="autoWaker")
 
 #From the developer site
 OAuthTwoClientID = "228FD6"
-ClientOrConsumerSecret = ClientSecretExtractor.getClientSecret()
+ClientOrConsumerSecret = getClientSecret()
 
 #Will need to change that...
 """

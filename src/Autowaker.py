@@ -2,28 +2,28 @@ import logging
 import os
 import sys
 
-import APIHandler
-import ConfigHandler
-import DataHandler
-import TimeHandler
-import TokenGetter
-import WakeUpCaller
+from APIHandler import APIHandler
+from ConfigHandler import getPath
+from DataHandler import DataHandler
+from TimeHandler import today, now, startCheckTime, endCheckTime, stallAction
+from TokenGetter import TokenGetter
+from WakeUpCaller import WakeUpCaller
 
 
 #Set the proper path
-os.chdir(ConfigHandler.getPath())
+os.chdir(getPath())
 
-today = TimeHandler.today()
+today_as_dt = today()
 #This is the Fitbit URL to use for the API call
 FitbitURLBase = "https://api.fitbit.com/1/user/-/sleep/date/"
-FitbitURL = FitbitURLBase + today + ".json"
+FitbitURL = FitbitURLBase + today_as_dt + ".json"
 
 #Use this URL to refresh the access token
 TokenURL = "https://api.fitbit.com/oauth2/token"
 
 #Get and write the tokens from here
-IniFile = os.path.join(ConfigHandler.getPath(),'tokens.txt')
-s = [ConfigHandler.getPath(), 'Data', 'MyData_' + today + '.txt']
+IniFile = os.path.join(getPath(),'tokens.txt')
+s = [getPath(), 'Data', 'MyData_' + today_as_dt + '.txt']
 OutFile = os.path.join(*s)
 
 #Some contants defining API error handling responses
@@ -37,16 +37,16 @@ def main():
     LOG.info('STARTING')
     
     # wait until we should start. Make this into a class or method?
-    while TimeHandler.now()>TimeHandler.endCheckTime() or TimeHandler.now()<TimeHandler.startCheckTime():
+    while now()>endCheckTime() or now()<startCheckTime():
         LOG.info('Pinging every 120 seconds to check if the person should be asleep.')
-        TimeHandler.stallAction(120)
+        stallAction(120)
     
-    key_getter = TokenGetter.TokenGetter(IniFile)
+    key_getter = TokenGetter(IniFile)
         
     #Get the config
     access_token, refresh_token = key_getter.getTokens()
-    api_handler = APIHandler.APIHandler(FitbitURL, OutFile, key_getter)
-    data_handler = DataHandler.DataHandler()
+    api_handler = APIHandler(FitbitURL, OutFile, key_getter)
+    data_handler = DataHandler()
     
     #Make the API call
     APICallOK, APIResponse = api_handler.makeAPICall()
@@ -61,7 +61,7 @@ def main():
         while not sleeping:
             LOG.info('still not asleep I see...')
             sys.stdout.flush()
-            TimeHandler.stallAction(600)  #Check every 10 minutes.
+            stallAction(600)  #Check every 10 minutes.
             APICallOK, APIResponse = api_handler.makeAPICall()
             if not APICallOK:
                 return -1
@@ -69,12 +69,12 @@ def main():
         
         #Sleeping is true now.
         LOG.info('You started sleeping at ' + str(start_time) + ' today.')
-        wake_up = WakeUpCaller.WakeUpCaller()
+        wake_up = WakeUpCaller()
         wake_up.callWake(start_time)
         
 def setupLogger():
     logging.basicConfig(filename='sleepDataLogs.log',level=logging.INFO, filemode ='w')
-    relative_log_location = [ConfigHandler.getPath(), 'Logs', 'sleepLogs' + today + '.log']
+    relative_log_location = [getPath(), 'Logs', 'sleepLogs' + today_as_dt + '.log']
     hdlr = logging.FileHandler(os.path.join(*relative_log_location))
     formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
     hdlr.setFormatter(formatter)

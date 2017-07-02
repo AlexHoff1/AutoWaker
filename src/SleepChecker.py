@@ -1,8 +1,8 @@
 import os
 
-import ConfigHandler
-import DataHandler
-import TimeHandler
+from ConfigHandler import getPath
+from DataHandler import DataHandler
+from TimeHandler import today
 
 """
     SleepChecker simply summarizes the methods of returning whether or not
@@ -22,7 +22,7 @@ class SleepChecker():
     
     def isAsleep(self):
         try:
-            data_handler = DataHandler.DataHandler()
+            data_handler = DataHandler()
             is_asleep, _ = data_handler.getSleepStartTime(data_handler.getData(self.data_location_))
             return is_asleep
         except:
@@ -33,7 +33,7 @@ class SleepChecker():
         return not self.isAsleep()
         
     ######CLASS VARIABLES#######
-    data_location_ = reduce(os.path.join,[ConfigHandler.getPath(), 'Data', 'MyData_' + TimeHandler.today() + '.txt'])
+    data_location_ = reduce(os.path.join,[getPath(), 'Data', 'MyData_' + today() + '.txt'])
     ######CLASS VARIABLES#######
 
 #END SleepChecker

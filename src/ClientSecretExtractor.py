@@ -1,9 +1,9 @@
 import os
 
-import ConfigHandler
+from ConfigHandler import getPath
 
 def getClientSecret():
-    relative_location = [ConfigHandler.getPath(), 'Data', 'ClientSecret.txt']
+    relative_location = [getPath(), 'Data', 'ClientSecret.txt']
     fid = open(os.path.join(*relative_location))
     client_secret = fid.read()
     fid.close()

@@ -9,8 +9,8 @@ from base64 import b64encode
 from fitbit.api import Fitbit
 from oauthlib.oauth2.rfc6749.errors import MismatchingStateError, MissingTokenError
 
-import ClientSecretExtractor
-import TokenGetter
+from TokenGetter import TokenGetter
+from ClientSecretExtractor import getClientSecret
 
 class OAuth2Server:
     def __init__(self, client_id, client_secret,
@@ -74,7 +74,7 @@ class OAuth2Server:
 
 def setupTokens():
     client_id = '228FD6'
-    client_secret = ClientSecretExtractor.getClientSecret()
+    client_secret = getClientSecret()
 
     server = OAuth2Server(client_id, client_secret)
     server.browser_authorize()
@@ -86,5 +86,5 @@ def setupTokens():
         if key == 'access_token':
             access_token = value
     
-    token_getter = TokenGetter.TokenGetter('tokens.txt')
+    token_getter = TokenGetter('tokens.txt')
     token_getter.setTokens(access_token = access_token, refresh_token = refresh_token)
