@@ -33,9 +33,8 @@ class APIHandler():
         access_token, refresh_token = self.key_getter_.getTokens()
         LOG.info('The passed access_token to MakeAPICall is ' + str(access_token))
         req = urllib2.Request(self.ini_file_)
-        
-        #Add the access token in the header
         req.add_header('Authorization', 'Bearer ' + access_token)
+        
         try:
             LOG.info('Trying to open the URL')
             response = urllib2.urlopen(req)
@@ -49,20 +48,20 @@ class APIHandler():
         # Catch errors, e.g. A 401 error that signifies the need for a new access token
         except urllib2.URLError as e:
             LOG.info('Call to the URL failed.')
-            HTTPErrorMessage = e.read()
-            LOG.info('ERROR message: \n   ' + str(HTTPErrorMessage))
+            http_error_message = e.read()
+            LOG.info('ERROR message: \n   ' + str(http_error_message))
             
             # See what the error was
-            if (e.code == 401) and (HTTPErrorMessage.find("Access token expired") > 0):
+            if (e.code == 401) and (http_error_message.find("Access token expired") > 0):
                 LOG.info('ERROR was out of date tokens, refreshing tokens.')
                 access_token, refresh_token = self.key_getter_.getNewAccessToken(refresh_token)
                 return self.makeAPICall(access_token, refresh_token)
             else:
-                if(refresh_token!=None) and (HTTPErrorMessage.find("Refresh token invalid: ")):
-                    LOG.info('Refresh token was invalid. Refreshing the tokens and running again.')
-                    access_token, refresh_token = self.key_getter_.refreshTokens()
+                if(refresh_token!=None) and (http_error_message.find("Refresh token invalid: ")):
+                    LOG.error('Refresh token was invalid.')
+                    raise IOError, 'Need to refresh tokens using new a new auth token.'
                 return self.makeAPICall(access_token, refresh_token)
-            # To implement: Catch other errors?
+            #TODO: catch other errors
             LOG.info('ERROR was not out of date tokens, call failed.')
             return False, 'ERROR'
     #End MakeAPICall()
