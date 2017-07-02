@@ -1,6 +1,6 @@
-import sys
-import os
 import logging
+import os
+import sys
 
 import TokenGetter
 import APIHandler

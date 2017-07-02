@@ -1,6 +1,6 @@
 import datetime
-import logging
 import json
+import logging
 
 LOG = logging.getLogger(name="autoWaker")
 

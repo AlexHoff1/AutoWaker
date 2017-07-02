@@ -1,9 +1,10 @@
 import datetime
-import time
 import logging
 import os
 import pyaudio
+import time
 import wave
+
 import TimeHandler
 import ConfigHandler
 
