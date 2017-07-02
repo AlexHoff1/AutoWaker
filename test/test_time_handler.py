@@ -34,6 +34,16 @@ class TestTimeHandler(unittest.TestCase):
             today_according_to_handler == yesterday.strftime('%Y-%m-%d') or
             today_according_to_handler == datetime.date.today().strftime('%Y-%m-%d'))
         self.assertTrue(is_reasonable)
-        
+    
+    def test_format_consistency(self):
+        today_according_to_timehandler = TimeHandler.today()
+        clocktime_according_to_timehandler = TimeHandler.clocktime()
+        self.assertTrue(type(clocktime_according_to_timehandler)==str)
+        self.assertTrue(type(today_according_to_timehandler)==str)
+        parse_date = datetime.datetime.strptime(today_according_to_timehandler, '%Y-%m-%d')
+        parse_time = datetime.datetime.strptime(clocktime_according_to_timehandler, "%H:%M:%S")
+        self.assertTrue(type(parse_date)==datetime.datetime)
+        self.assertTrue(type(parse_time)==datetime.datetime)
+
 if __name__ == '__main__':
     unittest.main()
