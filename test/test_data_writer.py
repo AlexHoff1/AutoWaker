@@ -26,6 +26,17 @@ class TestDataWriter(unittest.TestCase):
         file_opened.close()
         os.remove(junk_location_2)
         os.rmdir(test_path_2)
+    
+    def test_null_location_does_not_write(self):
+        test_path = ''
+        result = DataWriter.writeDataToFile(data = 'myjunk', location = test_path)
+        self.assertFalse(result)
+    
+    #  Makes sure that the data can't write to places where permissions fail.
+    def test_root_fails(self):
+        test_path = os.path.join('','/')
+        result = DataWriter.writeDataToFile(data = 'myjunk', location = test_path)
+        self.assertFalse(result)
         
 if __name__ == '__main__':
     unittest.main()

@@ -6,6 +6,8 @@ LOG = logging.getLogger(name="autoWaker")
 
 #  Writes the data to file, forcefullly.
 def writeDataToFile(data, location):
+    if location == '':
+        return False
         try:
             LOG.info('Writing the data to a file.')
             out_file_opened = open(location, 'w')
@@ -30,6 +32,4 @@ def writeDataToFile(data, location):
             except:
                 LOG.debug('Failed to write data to ' + str(location) + ' and the directory existed.')
                 return False
-            LOG.debug('There was a problem with opening and closing the file. Data was not written.')
-            return False
-    #End writeDataToOutFile()
+#End writeDataToOutFile()
