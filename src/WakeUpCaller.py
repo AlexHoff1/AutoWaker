@@ -5,8 +5,9 @@ import pyaudio
 import time
 import wave
 
-import TimeHandler
 import ConfigHandler
+import SleepChecker
+import TimeHandler
 
 LOG = logging.getLogger(name="autoWaker")
 
@@ -55,7 +56,8 @@ class WakeUpCaller():
     
     
     def isAsleep(self):
-        return False
+        sleep_checker = SleepChecker.SleepChecker()
+        return sleep_checker.isAsleep()
     #END isAsleep()
     
     
