@@ -39,8 +39,16 @@ class TokenGetter():
         
         #Read first two lines - first is the access token, second is the refresh token
         LOG.info('Trying to retrieve the data.')
-        access_token = file_obj.readline()
-        refresh_token = file_obj.readline()
+        try:
+            access_token = file_obj.readline()
+        except:
+            file_obj.close()
+            return '', ''
+        try:
+            refresh_token = file_obj.readline()
+        except:
+            file_obj.close()
+            return access_token, ''
         file_obj.close()
         LOG.info('Successfully closed the file that contains current tokens.')
         
