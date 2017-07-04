@@ -66,6 +66,13 @@ class APIHandler():
             return False, 'ERROR'
     #End MakeAPICall()
     
+    def cancelIfAPICallBad(self):
+        api_call_ok, api_response = self.makeAPICall()
+        if not api_call_ok:
+            return -1
+        else:
+            return api_response
+    
     #######CLASS VARIABLES#########
     key_getter_ = None
     ini_file_ = None
