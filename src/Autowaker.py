@@ -1,6 +1,5 @@
 import logging
 import os
-import sys
 
 from APIHandler import APIHandler
 from ConfigHandler import getPath
