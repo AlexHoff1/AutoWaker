@@ -3,7 +3,7 @@ import urllib2
 
 from TokenGetter import TokenGetter
 
-import DataWriter as writer
+from DataWriter import writeDataToFile
 LOG = logging.getLogger(name="autoWaker")
 
 """
@@ -40,7 +40,7 @@ class APIHandler():
             response = urllib2.urlopen(req)
             LOG.info('Reading the response')
             full_response = response.read()
-            writer.writeDataToFile(data = full_response, location = self.out_file_)
+            writeDataToFile(data = full_response, location = self.out_file_)
             LOG.info('Call to the URL succeeded.')
             
             return True, full_response
@@ -62,7 +62,7 @@ class APIHandler():
                     raise IOError, 'Need to refresh tokens using new a new auth token.'
                 return self.makeAPICall(access_token, refresh_token)
             #TODO: catch other errors
-            LOG.info('ERROR was not out of date tokens, call failed.')
+            LOG.error('API call failed and it was not out of date tokens.')
             return False, 'ERROR'
     #End MakeAPICall()
     
@@ -72,6 +72,8 @@ class APIHandler():
             return -1
         else:
             return api_response
+            
+            
     
     #######CLASS VARIABLES#########
     key_getter_ = None

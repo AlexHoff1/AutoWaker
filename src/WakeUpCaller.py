@@ -24,7 +24,7 @@ LOG = logging.getLogger(name="autoWaker")
   License: ---
 """
 class WakeUpCaller():
-    def __init__(self, fileLocation=None):
+    def __init__(self, fileLocation=None, sleep_start_time = None):
         if fileLocation!=None:
             self.wake_up_noise_ = fileLocation
     
