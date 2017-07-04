@@ -5,10 +5,11 @@ import sys
 from APIHandler import APIHandler
 from ConfigHandler import getPath
 from DataHandler import DataHandler
+from LogCreator import setupLogger
+from SleepChecker import SleepChecker
 from TimeHandler import today, now, startCheckTime, endCheckTime, stallAction
 from TokenGetter import TokenGetter
 from WakeUpCaller import WakeUpCaller
-from LogCreator import setupLogger
 
 
 #Set the proper path
@@ -38,28 +39,18 @@ def main():
     data_handler = DataHandler()
     
     #Make the API call
-    APICallOK, APIResponse = api_handler.makeAPICall()
-    if not APICallOK:
-        return -1
-    
+    APIResponse = api_handler.cancelIfAPICallBad()
+    sleep_checker = SleepChecker(OutFile)
     LOG.info('starting the cycle... Forever.')
-    while True:
-        sys.stdout.flush()
-        data = data_handler.getData(OutFile)
-        sleeping, start_time = data_handler.getSleepStartTime(data)
-        while not sleeping:
-            LOG.info('still not asleep I see...')
-            sys.stdout.flush()
-            stallAction(600)  #Check every 10 minutes.
-            APICallOK, APIResponse = api_handler.makeAPICall()
-            if not APICallOK:
-                return -1
-            sleeping, start_time = data_handler.getSleepStartTime(APIResponse)
+    while sleep_checker.isAwake():
+        stallAction(600)  #Check every 10 minutes.
+        APIResponse = api_handler.cancelIfAPICallBad()
+        sleeping, start_time = data_handler.getSleepStartTime(APIResponse)
         
-        #Sleeping is true now.
-        LOG.info('You started sleeping at ' + str(start_time) + ' today.')
-        wake_up = WakeUpCaller()
-        wake_up.callWake(start_time)
+    #Sleeping is true now.
+    LOG.info('You started sleeping at ' + str(start_time) + ' today.')
+    wake_up = WakeUpCaller()
+    wake_up.callWake(start_time)
 
 
 if __name__ == '__main__':
