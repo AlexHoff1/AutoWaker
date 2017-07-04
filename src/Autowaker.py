@@ -15,14 +15,9 @@ os.chdir(getPath())
 
 today_as_dt = today()
 #This is the Fitbit URL to use for the API call
-FitbitURLBase = "https://api.fitbit.com/1/user/-/sleep/date/"
-FitbitURL = FitbitURLBase + today_as_dt + ".json"
-
-#Use this URL to refresh the access token
-TokenURL = "https://api.fitbit.com/oauth2/token"
+FitbitURL = "https://api.fitbit.com/1/user/-/sleep/date/" + today_as_dt + ".json"
 
 #Get and write the tokens from here
-IniFile = os.path.join(getPath(),'tokens.txt')
 s = [getPath(), 'Data', 'MyData_' + today_as_dt + '.txt']
 OutFile = os.path.join(*s)
 
@@ -41,7 +36,7 @@ def main():
         LOG.info('Pinging every 120 seconds to check if the person should be asleep.')
         stallAction(120)
     
-    key_getter = TokenGetter(IniFile)
+    key_getter = TokenGetter(os.path.join(getPath(),'tokens.txt'))
         
     #Get the config
     access_token, refresh_token = key_getter.getTokens()
