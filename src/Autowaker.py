@@ -43,12 +43,12 @@ def main():
     sleep_checker = SleepChecker(OutFile)
     LOG.info('starting the cycle... Forever.')
     while sleep_checker.isAwake():
+        sleeping, start_time = data_handler.getSleepStartTime(APIResponse)
         stallAction(600)  #Check every 10 minutes.
         APIResponse = api_handler.cancelIfAPICallBad()
-        sleeping, start_time = data_handler.getSleepStartTime(APIResponse)
         
     #Sleeping is true now.
-    LOG.info('You started sleeping at ' + str(start_time) + ' today.')
+    LOG.info('User started sleeping at ' + str(start_time) + ' today.')
     wake_up = WakeUpCaller()
     wake_up.callWake(start_time)
 
