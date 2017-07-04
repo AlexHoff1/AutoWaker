@@ -8,6 +8,7 @@ from DataHandler import DataHandler
 from TimeHandler import today, now, startCheckTime, endCheckTime, stallAction
 from TokenGetter import TokenGetter
 from WakeUpCaller import WakeUpCaller
+from LogCreator import setupLogger
 
 
 #Set the proper path
@@ -33,9 +34,6 @@ def main():
         stallAction(120)
     
     key_getter = TokenGetter(os.path.join(getPath(),'tokens.txt'))
-        
-    #Get the config
-    access_token, refresh_token = key_getter.getTokens()
     api_handler = APIHandler(FitbitURL, OutFile, key_getter)
     data_handler = DataHandler()
     
@@ -62,18 +60,7 @@ def main():
         LOG.info('You started sleeping at ' + str(start_time) + ' today.')
         wake_up = WakeUpCaller()
         wake_up.callWake(start_time)
-        
-def setupLogger():
-    logging.basicConfig(filename='sleepDataLogs.log',level=logging.INFO, filemode ='w')
-    relative_log_location = [getPath(), 'Logs', 'sleepLogs' + today_as_dt + '.log']
-    hdlr = logging.FileHandler(os.path.join(*relative_log_location))
-    formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
-    hdlr.setFormatter(formatter)
-    hdlr.setLevel(logging.INFO)
-    LOG = logging.getLogger(name = "autoWaker")
-    LOG.addHandler(hdlr)
-    LOG.setLevel(logging.INFO)
-    return LOG
+
 
 if __name__ == '__main__':
     main()
