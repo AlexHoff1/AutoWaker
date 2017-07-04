@@ -41,7 +41,9 @@ class DataHandler():
     #   isAsleep, startTime
     #   isAsleep is True if the person is still sleeping as far as the data is concerned.
     #   startTime is the time that sleep started (whether or not they're awake)
-    def getSleepStartTime(self, data):        
+    def getSleepStartTime(self, data):
+        if type(data)!=str:
+            return False, False    
         try:
             awake = self.isAwakeInData(data)
             if (awake):
