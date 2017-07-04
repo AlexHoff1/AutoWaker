@@ -21,10 +21,6 @@ FitbitURL = "https://api.fitbit.com/1/user/-/sleep/date/" + today_as_dt + ".json
 s = [getPath(), 'Data', 'MyData_' + today_as_dt + '.txt']
 OutFile = os.path.join(*s)
 
-#Some contants defining API error handling responses
-TokenRefreshedOK = "Token refreshed OK"
-ErrorInAPI = "Error when making API call that I couldn't handle"
-
 
 def main(): 
     
