@@ -3,3 +3,9 @@ from DataHandler import DataHandler
 from SleepChecker import SleepChecker
 from TokenGetter import TokenGetter
 from WakeUpCaller import WakeUpCaller
+import AuthorizationCodeExtractor
+import Autowaker
+import AutoWakerHandler
+import ClientSecretExtractor
+import ConfigHandler
+import DataWriter
