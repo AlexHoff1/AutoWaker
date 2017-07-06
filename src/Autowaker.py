@@ -30,9 +30,9 @@ def main():
     LOG.info('STARTING')
     
     # wait until we should start. Make this into a class or method?
-    while now()>endCheckTime() or now()<startCheckTime():
-        LOG.info('Pinging every 120 seconds to check if the person should be asleep.')
-        stallAction(120)
+    #while now()>endCheckTime() or now()<startCheckTime():
+    #    LOG.info('Pinging every 120 seconds to check if the person should be asleep.')
+    #    stallAction(120)
     
     key_getter = TokenGetter(os.path.join(getPath(),'tokens.txt'))
     api_handler = APIHandler(FitbitURL, OutFile, key_getter)

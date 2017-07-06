@@ -55,7 +55,7 @@ class APIHandler():
             if (e.code == 401) and (http_error_message.find("Access token expired") > 0):
                 LOG.info('ERROR was out of date tokens, refreshing tokens.')
                 access_token, refresh_token = self.key_getter_.getNewAccessToken(refresh_token)
-                return self.makeAPICall(access_token, refresh_token)
+                return self.makeAPICall()
             else:
                 if(refresh_token!=None) and (http_error_message.find("Refresh token invalid: ")):
                     LOG.error('Refresh token was invalid.')
