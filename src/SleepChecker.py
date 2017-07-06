@@ -18,12 +18,15 @@ class SleepChecker():
     def __init__(self, data_location=None):
         if data_location!=None:
             self.data_location_ = data_location
+        else:
+            print data_location
         
     
     def isAsleep(self):
         try:
             data_handler = DataHandler()
-            is_asleep, _ = data_handler.getSleepStartTime(data_handler.getData(self.data_location_))
+            data = data_handler.getData(self.data_location_)
+            is_asleep, _ = data_handler.getSleepStartTime(data)
             return is_asleep
         except:
             return False

@@ -43,7 +43,7 @@ class DataHandler():
     #   startTime is the time that sleep started (whether or not they're awake)
     def getSleepStartTime(self, data):
         if type(data)!=str:
-            return False, False    
+            return False, False
         try:
             awake = self.isAwakeInData(data)
             if (awake):
@@ -51,8 +51,8 @@ class DataHandler():
                 
             LOG.info('Trying to extract the start time from the data.')
             response_json = json.loads(data)
-            start_time_str = str(response_json['sleep'][0]['startTime'])
-            start_time = datetime.strptime(start_time_str, '%Y-%m-%dT%H:%M:%S.%f')
+            start_time_str = str(response_json['summary']['startTime'])
+            start_time = datetime.datetime.strptime(start_time_str, '%Y-%m-%dT%H:%M:%S.%f')
             LOG.info('Start time: ' + start_time_str)
             LOG.info('Person has started sleeping today, and hasn\'t woken up.')
             return True, start_time
@@ -68,18 +68,18 @@ class DataHandler():
         try:
             LOG.info('Trying to see whether the person has already woken up.')
             response_json = json.loads(data)
-            end_time_str = str(response_json['sleep'][0]['endTime'])
-            end_time = datetime.strptime(end_time_str, '%Y-%m-%dT%H:%M:%S.%f')
+            end_time_str = str(response_json['summary']['endTime'])
+            end_time = datetime.datetime.strptime(end_time_str, '%Y-%m-%dT%H:%M:%S.%f')
             if (end_time!=None):
                 LOG.info('Sleep ended at ' + end_time_str)
-                return False
+                return True
             else:
                 LOG.info('Sleep has not yet ended.')
-                return True
+                return False
             
         except:
             LOG.info('Sleep has not yet ended.')
-            return True
+            return False
     #End isAWakeInData()
 
 #End dataHandler class
