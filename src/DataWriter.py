@@ -5,8 +5,9 @@ import os
 LOG = logging.getLogger(name="autoWaker")
 
 #  Writes the data to file, forcefullly.
-def writeDataToFile(data, location):
+def writeDataToFile(data = None, location = None):
     if location == '':
+        LOG.info('location was empty.')
         return False
     try:
         LOG.info('Writing the data to a file.')
