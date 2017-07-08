@@ -21,6 +21,8 @@ class DataHandler():
     #  Returns the contents of the file
     #  Throws IOError if anything fails.
     def getData(self, out_file = None):
+        if type(out_file)!=str or out_file == '':
+            return ''  # Theres' no data in it after all
         LOG.info('Opening the file: ' + str(out_file))
         try:
             File = open(out_file, 'r')
@@ -35,7 +37,6 @@ class DataHandler():
             raise IOError, str(out_file) + ' failed to read.'
     #End getData()
     
-    ####TODO: Fix the call to get the time.    
     #  Extract the start time from the data.
     #  Returns:
     #   isAsleep, startTime
@@ -62,9 +63,10 @@ class DataHandler():
             return False, False
     #End getSleepStartTime()
     
-    ####TODO: Fix the call to get the time.
     #  Returns a boolean indicating whether or not the person is still asleep
     def isAwakeInData(self, data = None):
+        if type(data)!=str:
+            return True
         try:
             LOG.info('Trying to see whether the person has already woken up.')
             response_json = json.loads(data)
