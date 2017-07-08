@@ -58,8 +58,11 @@ class DataHandler():
             LOG.info('Person has started sleeping today, and hasn\'t woken up.')
             return True, start_time
             
+        except ValueError:
+            LOG.info('Person hasn\'t started sleeping yet.')
+            return False, False
         except:
-            LOG.info('Failed to extract start time.')
+            LOG.error('Error extracting the time from ' + start_time_str)
             return False, False
     #End getSleepStartTime()
     
@@ -81,9 +84,12 @@ class DataHandler():
                 LOG.info('Sleep has not yet ended.')
                 return False
             
-        except:
+        except ValueError:
             LOG.info('Sleep has not yet ended.')
             return False
+        except:
+            LOG.error('Error extracting the time from ' + end_time_str)
+            return False, False
     #End isAWakeInData()
 
 #End dataHandler class
