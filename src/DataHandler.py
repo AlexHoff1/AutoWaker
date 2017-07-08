@@ -20,7 +20,7 @@ class DataHandler():
     #  Reads the OutFile to get the data.
     #  Returns the contents of the file
     #  Throws IOError if anything fails.
-    def getData(self, out_file):
+    def getData(self, out_file = None):
         LOG.info('Opening the file: ' + str(out_file))
         try:
             File = open(out_file, 'r')
@@ -41,7 +41,7 @@ class DataHandler():
     #   isAsleep, startTime
     #   isAsleep is True if the person is still sleeping as far as the data is concerned.
     #   startTime is the time that sleep started (whether or not they're awake)
-    def getSleepStartTime(self, data):
+    def getSleepStartTime(self, data = None):
         if type(data)!=str:
             return False, False
         try:
@@ -64,11 +64,13 @@ class DataHandler():
     
     ####TODO: Fix the call to get the time.
     #  Returns a boolean indicating whether or not the person is still asleep
-    def isAwakeInData(self, data):
+    def isAwakeInData(self, data = None):
         try:
             LOG.info('Trying to see whether the person has already woken up.')
             response_json = json.loads(data)
             end_time_str = str(response_json['summary']['endTime'])
+            
+            #This weird datetime.datetime thing is how the library works unfortunately.
             end_time = datetime.datetime.strptime(end_time_str, '%Y-%m-%dT%H:%M:%S.%f')
             if (end_time!=None):
                 LOG.info('Sleep ended at ' + end_time_str)
