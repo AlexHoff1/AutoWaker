@@ -28,6 +28,7 @@ class WakeUpCaller():
         if fileLocation!=None:
             self.wake_up_noise_ = fileLocation
     
+    """
     #  One call to handle waking so data doesn't need to be passed around.
     def callWake(self, sleep_start_time = None):
         wake_up_time = self.calculateWakeTime(sleep_start_time = sleep_start_time)
@@ -35,8 +36,9 @@ class WakeUpCaller():
         should_be_awake = self.wakeAtTime(wake_up_time = wake_up_time)
         if (should_be_awake) and self.isAsleep():
             LOG.debug('FAILED TO WAKE TARGET.')
+    """
         
-    
+    """
     #  Plays my favorite wakeup noise :D!
     def wakeUp(self):
         head, tail = os.path.split(self.wake_up_noise_)
@@ -53,7 +55,7 @@ class WakeUpCaller():
         stream.stop_stream()
         stream.close()
         p.terminate()
-    
+    """
     
     def isAsleep(self):
         sleep_checker = SleepChecker()
@@ -71,6 +73,7 @@ class WakeUpCaller():
         return self.wake_up_time_
     #END getWakeTime()
     
+    """
     #  Wakes the target up with 30 second precision.
     def wakeAtTime(self, wake_up_time = None):
         self.setWakeTime(wake_up_time = wake_up_time)
@@ -85,6 +88,7 @@ class WakeUpCaller():
             self.wakeUp()
         return True
     #END wakeAtTime()
+    """
     
     #  Returns whether or not the person should still be asleep.
     def shouldSleep(self):
