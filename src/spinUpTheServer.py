@@ -64,7 +64,7 @@ while True:
     print date
     print user
     LOG.info("date is: " + date + " and the user is: " + user)
-    our_result_maker = ServerRequestHandler(user = user, date = date)
+    our_result_maker = ServerRequestHandler(user = '-', date = date)
     
     http_response = "HTTP/1.1 200 OK" + "\n" + "\n{\"wakeTime\": \"" + our_result_maker.getWakeTime() + "\"}"
 

@@ -36,8 +36,10 @@ class ServerRequestHandler():
         FitbitURL = "https://api.fitbit.com/1/user/" + user + "/sleep/date/" + today_as_dt + ".json"
         LOG = setupLogger()
         LOG.info('STARTING')
+        key_getter_location = os.path.join(getPath(),'Tokens.txt')
+        print key_getter_location
 
-        key_getter = TokenGetter(os.path.join(getPath(),'Tokens.txt'))
+        key_getter = TokenGetter(key_getter_location)
         api_handler = APIHandler(FitbitURL, OutFile, key_getter)
         data_handler = DataHandler()
         
@@ -47,7 +49,7 @@ class ServerRequestHandler():
         LOG.info('starting the cycle... Forever.')
         if sleep_checker.isAwake():
             return '06:00:00'
-        else:            
+        else:
             APIResponse = api_handler.cancelIfAPICallBad()
             sleeping, start_time = data_handler.getSleepStartTime(APIResponse)
             
