@@ -1,22 +1,49 @@
 import socket
+import urlparse
+import logging
+import os
 
 from AutoWakerHandler import ServerRequestHandler
+from ConfigHandler import getPath
+from TimeHandler import today
 
 
-
+#  Puts log into a relative location, and adds a day stamp.
+def setupLogger():
+    today_as_dt = today()
+    logging.basicConfig(filename='ServerLogs.log',level=logging.INFO, filemode ='w')
     
+    # ~/Logs/sleepLogs*date*.log
+    relative_log_location = [getPath(), 'Logs', 'ServerLogs' + today_as_dt + '.log']
+    hdlr = logging.FileHandler(os.path.join(*relative_log_location))
+    formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
+    
+    
+    hdlr.setFormatter(formatter)
+    hdlr.setLevel(logging.INFO)
+    LOG = logging.getLogger(name = "ServerLogs")
+    LOG.addHandler(hdlr)
+    LOG.setLevel(logging.INFO)
+    return LOG
+
+LOG = setupLogger()
+
+
+# TODO: Clean this up a lot.
 def parseDateAndUser(request):
     information = request.split('\n')
-    for line in information:
-        lineSplit = line.split(':')
-        second = line.strip()
-        hardCodedString = 'http://192.168.56.1:8888/?'
-        if (second[0:len(hardCodedString)] == hardCodedString):
-            params = second[len(hardCodedString):]
-            whatWeNeed = params.split('&')
-            return whatWeNeed[0], whatWeNeed[1]
-    return "", ""        
-
+    print information
+    print 'What we want: ' + information[0]
+    data = str.split(information[0])
+    print 'Attempt 1:' + data[1]
+    params = data[1].split('?')[1].split('&') #Get rid of the /?
+    for element in params:
+        parameter_parsing = element.split('=')
+        if parameter_parsing[0]=='date':
+            date = parameter_parsing[1]
+        elif parameter_parsing[0]=='user':
+            user = parameter_parsing[1]
+    return date, user
 
 ### TODO: Fix this shitty script and make it real.
 HOST, PORT = '192.168.56.1', 8888
@@ -36,6 +63,7 @@ while True:
         date, user = "", ""
     print date
     print user
+    LOG.info("date is: " + date + " and the user is: " + user)
     our_result_maker = ServerRequestHandler(user = user, date = date)
     
     http_response = "HTTP/1.1 200 OK" + "\n" + "\n{\"wakeTime\": \"" + our_result_maker.getWakeTime() + "\"}"
