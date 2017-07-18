@@ -34,7 +34,7 @@ class APIHandler():
         LOG.info('The passed access_token to MakeAPICall is ' + str(access_token))
         req = urllib2.Request(self.ini_file_)
         req.add_header('Authorization', 'Bearer ' + access_token)
-        
+        LOG.info("Url is: " + str(self.ini_file_))
         try:
             LOG.info('Trying to open the URL')
             response = urllib2.urlopen(req)
