@@ -3,7 +3,6 @@ import json
 import logging
 import urllib
 import urllib2
-import pymysql
 
 from ClientSecretExtractor import getClientSecret
 
@@ -13,6 +12,7 @@ LOG = logging.getLogger(name="autoWaker")
 OAuthTwoClientID = "228FD6"
 ClientOrConsumerSecret = getClientSecret()
 
+#Will need to change that...
 """
   Used to get and refresh the Tokens so we can get the data.
   
@@ -25,66 +25,58 @@ ClientOrConsumerSecret = getClientSecret()
   License: ---
 """
 class TokenGetter():
-    def __init__(self, config_file = None, user = None):
+    def __init__(self, config_file):
         self.token_loc_ = config_file
-        self.user_ = user
         
     #  Get the config from the config file. This is the access and refresh tokens
     def getTokens(self):
-        LOG.info('Calling the database for user: ' + str(self.user_))
-        connection = pymysql.connect(host='localhost',
-                                     user='user',
-                                     db='db')
+        LOG.info('Trying to open the file containing the Tokens.')
         try:
-            with connection.cursor() as cursor:
-                sql = "SELECT access_token, refresh_token from 'tokens' where user = " +\
-                      str(self.user_) + "and entered_datetime in " +\
-                      "(select max(entered_datetime) from 'tokens' where user = " + self.user_ + ")";
-                cursor.execute(sql);
-                result = cursor.fetchall()
-                access_token, refresh_token = result
-            connection.close()
+            file_obj = open(self.token_loc_, 'r')
         except:
-            #TODO: More useful logging messages, this one is probably important!
-            LOG.debug('Failed to retrieve information from database.')
+            LOG.debug('current token file ' + str(self.token_loc_) + ' is invalid.')
             raise IOError
         
-        #TODO: Make result nice.
+        #Read first two lines - first is the access token, second is the refresh token
+        LOG.info('Trying to retrieve the data.')
+        try:
+            access_token = file_obj.readline()
+        except:
+            file_obj.close()
+            return '', ''
+        try:
+            refresh_token = file_obj.readline()
+        except:
+            file_obj.close()
+            return access_token, ''
+        file_obj.close()
+        LOG.info('Successfully closed the file that contains current tokens.')
+        
+        LOG.info('Stripping the newline and whitespace from tokens.')
+        access_token = access_token.strip()
+        refresh_token = refresh_token.strip()
+        
+        #Return values
         return access_token, refresh_token
     #END getTokens()
     
     #  Writes the new tokens to the file.
     def setTokens(self, access_token, refresh_token):
-        LOG.info("Writing new tokens to the database")
+        LOG.info("Writing new tokens to the config file")
         LOG.info("Writing this: " + access_token + " and " + refresh_token)
         
         if (access_token==None or refresh_token==None):
             LOG.debug('At least one token passed was none type. Check the rest of the logs for errors.')
             raise IOError
         try:
-            connection = pymysql.connect(
-                            host='localhost',
-                            user='user',
-                            b='db')
-            with connection.cursor() as cursor:
-                sql = "INSERT INTO 'tokens' ('user','access_token','refresh_token') VALUES (%s, %s, %s)"
-                cursor.execute(sql, (self.user_, access_token, refresh_token))
-                cursor.execute(sql);
-                result = cursor.fetchall()
-                access_token, refresh_token = result
-            connection.close()
+            file_obj = open(self.token_loc_, 'w')  #NOTE: This deletes old file!
+            file_obj.write(access_token + "\n")
+            file_obj.write(refresh_token + "\n")
+            file_obj.close()
             
         except:
-            LOG.debug('Failed to write to the database.')
-            try:
-                LOG.debug('Trying to write to a spare location.')
-                file_obj = open(self.token_loc_, 'w')  #NOTE: This deletes old file!
-                file_obj.write(access_token + "\n")
-                file_obj.write(refresh_token + "\n")
-                file_obj.close()
-                LOG.debug('Wrote to spare location successfully.')
-            except:
-                LOG.debug('Problem: FileObj didn\'t properly write the tokens!')
+            LOG.debug('Problem: FileObj didn\'t properly write the tokens!')
+            #forceWrite(self.token_loc_, access_token, refresh_token)
     #END setTokens()
     
     #  Writes the new tokens to a file and returns them.
@@ -148,7 +140,6 @@ class TokenGetter():
     ############CLASS VARIABLES##############
     token_loc_ = ''
     token_url_ = "https://api.fitbit.com/oauth2/token"
-    user_ = 'None'
     ############CLASS VARIABLES##############
 
 #END TokenGetter class
