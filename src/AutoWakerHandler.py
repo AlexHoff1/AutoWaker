@@ -34,11 +34,10 @@ class ServerRequestHandler():
     def getWakeTime(self): 
         user = self.getUser()
         FitbitURL = "https://api.fitbit.com/1/user/" + user + "/sleep/date/" + today_as_dt + ".json"
-        return '06:00:00'
         LOG = setupLogger()
         LOG.info('STARTING')
 
-        key_getter = TokenGetter(os.path.join(getPath(),'tokens.txt'))
+        key_getter = TokenGetter(os.path.join(getPath(),'Tokens.txt'))
         api_handler = APIHandler(FitbitURL, OutFile, key_getter)
         data_handler = DataHandler()
         
