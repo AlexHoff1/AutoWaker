@@ -46,8 +46,9 @@ class ServerRequestHandler():
         #Make the API call
         APIResponse = api_handler.cancelIfAPICallBad()
         sleep_checker = SleepChecker(OutFile)
-        LOG.info('starting the cycle... Forever.')
+        LOG.info("Checking if the user is asleep.")
         if sleep_checker.isAwake():
+            LOG.info("User is still awake.")
             return '06:00:00'
         else:
             APIResponse = api_handler.cancelIfAPICallBad()
