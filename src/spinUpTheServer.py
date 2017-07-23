@@ -31,42 +31,56 @@ LOG = setupLogger()
 
 # TODO: Clean this up a lot.
 def parseDateAndUser(request):
-    information = request.split('\n')
-    print information
-    print 'What we want: ' + information[0]
-    data = str.split(information[0])
-    print 'Attempt 1:' + data[1]
-    params = data[1].split('?')[1].split('&') #Get rid of the /?
-    for element in params:
-        parameter_parsing = element.split('=')
-        if parameter_parsing[0]=='date':
-            date = parameter_parsing[1]
-        elif parameter_parsing[0]=='user':
-            user = parameter_parsing[1]
-    return date, user
-
-### TODO: Fix this shitty script and make it real.
-HOST, PORT = '192.168.56.1', 8888
-
-listen_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-listen_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-listen_socket.bind((HOST, PORT))
-listen_socket.listen(1)
-print 'Serving HTTP on port %s ...' % PORT
-while True:
-    client_connection, client_address = listen_socket.accept()
-    request = client_connection.recv(1024)
-    print request
     try:
-        date, user = parseDateAndUser(request)
+        information = request.split('\n')
+        print information
+        print 'What we want: ' + information[0]
+        data = str.split(information[0])
+        print 'Attempt 1:' + data[1]
+        params = data[1].split('?')[1].split('&') #Get rid of the /?
+        for element in params:
+            parameter_parsing = element.split('=')
+            if parameter_parsing[0]=='date':
+                date = parameter_parsing[1]
+            elif parameter_parsing[0]=='user':
+                user = parameter_parsing[1]
+        return date, user
     except:
-        date, user = "", ""
-    print date
-    print user
-    LOG.info("date is: " + date + " and the user is: " + user)
-    our_result_maker = ServerRequestHandler(user = '-', date = date)
-    
-    http_response = "HTTP/1.1 200 OK" + "\n" + "\n{\"wakeTime\": \"" + our_result_maker.getWakeTime() + "\"}"
+        return "","-"
 
-    client_connection.sendall(http_response)
-    client_connection.close()
+def getHostAndPort():
+    return socket.getfqdn(), 8888
+
+def assembleHttpResponse(user, date):
+    http_ok = "HTTP/1.1 200 OK\n\n"
+    our_result_maker = ServerRequestHandler(user = user, date = date)
+    json_information = "{\"wakeTime\": \"" + our_result_maker.getWakeTime() + "\"}"
+    return http_ok + json_information
+
+def getListenSocket():
+    HOST, PORT = getHostAndPort()
+    listen_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    listen_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    listen_socket.bind((HOST, PORT))
+    listen_socket.listen(1)
+    LOG.info('Serving HTTP on port ' + str(PORT) + ' ...')
+    return listen_socket
+
+def startServer():
+    listen_socket = getListenSocket()
+
+    while True:
+        client_connection, client_address = listen_socket.accept()
+        request = client_connection.recv(1024)
+
+        print request
+        
+        date, user = parseDateAndUser(request)
+        LOG.info("date is: " + date + " and the user is: " + user)
+        
+        http_response = assembleHttpResponse(user, date)
+    
+        client_connection.sendall(http_response)
+        client_connection.close()
+    
+startServer()
