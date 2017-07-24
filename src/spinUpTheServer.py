@@ -9,7 +9,7 @@ from TimeHandler import today
 
 
 #  Puts log into a relative location, and adds a day stamp.
-def setupLogger():
+def setupServerLogger():
     today_as_dt = today()
     logging.basicConfig(filename='ServerLogs.log',level=logging.INFO, filemode ='w')
     
@@ -26,24 +26,22 @@ def setupLogger():
     LOG.setLevel(logging.INFO)
     return LOG
 
-LOG = setupLogger()
+LOG = setupServerLogger()
 
 
 # TODO: Clean this up a lot.
 def parseDateAndUser(request):
     try:
         information = request.split('\n')
-        print information
-        print 'What we want: ' + information[0]
         data = str.split(information[0])
-        print 'Attempt 1:' + data[1]
         params = data[1].split('?')[1].split('&') #Get rid of the /?
         for element in params:
-            parameter_parsing = element.split('=')
-            if parameter_parsing[0]=='date':
-                date = parameter_parsing[1]
-            elif parameter_parsing[0]=='user':
-                user = parameter_parsing[1]
+            # 0 is the name location, 1 is the data location. Associate name->data.
+            parameter_split = element.split('=')
+            if parameter_split[0]=='date':
+                date = parameter_split[1]
+            elif parameter_split[0]=='user':
+                user = parameter_split[1]
         return date, user
     except:
         return "","-"
@@ -64,6 +62,7 @@ def getListenSocket():
     listen_socket.bind((HOST, PORT))
     listen_socket.listen(1)
     LOG.info('Serving HTTP on port ' + str(PORT) + ' ...')
+    LOG.info("HOST: " + str(HOST) + " and PORT: " + str(PORT))
     return listen_socket
 
 def startServer():
@@ -82,5 +81,8 @@ def startServer():
     
         client_connection.sendall(http_response)
         client_connection.close()
-    
+
+
+
+#SCRIPT TO START A SERVER ON THE MACHINE
 startServer()
