@@ -30,7 +30,7 @@ def main():
     LOG.info('STARTING')
     
     # wait until we should start. Make this into a class or method?
-    #while now()>endCheckTime() or now()<startCheckTime():
+    # while now()>endCheckTime() or now()<startCheckTime():
     #    LOG.info('Pinging every 120 seconds to check if the person should be asleep.')
     #    stallAction(120)
     
@@ -41,14 +41,17 @@ def main():
     #Make the API call
     APIResponse = api_handler.cancelIfAPICallBad()
     sleep_checker = SleepChecker(OutFile)
-    LOG.info('starting the cycle... Forever.')
+    LOG.info('Polling until the user is asleep.');
     while sleep_checker.isAwake():
-        stallAction(600)  #Check every 10 minutes.
+        stallAction(600)  #Check every 10 minutes if the user is asleep.
         APIResponse = api_handler.cancelIfAPICallBad()
         sleeping, start_time = data_handler.getSleepStartTime(APIResponse)
         
-    #Sleeping is true now.
-    LOG.info('You started sleeping at ' + str(start_time) + ' today.')
+    #The user is now asleep.
+    
+    user = '-' # Temporary username being used.
+    
+    LOG.info('User ' + user + ' started sleeping at ' + str(start_time) + ' today.')
     wake_up = WakeUpCaller()
     wake_up.callWake(start_time)
 
