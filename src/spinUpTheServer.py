@@ -50,7 +50,7 @@ def getHostAndPort():
     return socket.getfqdn(), 8888
 
 def assembleHttpResponse(user, date):
-    http_ok = "HTTP/1.1 200 OK\n\n"
+    http_ok = "HTTP/1.1 200 OK\r\n\r\n"
     our_result_maker = ServerRequestHandler(user = user, date = date)
     json_information = "{\"wakeTime\": \"" + our_result_maker.getWakeTime() + "\"}"
     return http_ok + json_information
@@ -61,6 +61,10 @@ def getListenSocket():
     listen_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     listen_socket.bind((HOST, PORT))
     listen_socket.listen(1)
+    #While True:
+        # make a new socket
+        #Return the stuff
+        #Start a client thread.
     LOG.info('Serving HTTP on port ' + str(PORT) + ' ...')
     LOG.info("HOST: " + str(HOST) + " and PORT: " + str(PORT))
     return listen_socket

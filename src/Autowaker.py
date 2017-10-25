@@ -21,6 +21,8 @@ FitbitURL = "https://api.fitbit.com/1/user/-/sleep/date/" + today_as_dt + ".json
 
 #Get and write the tokens from here
 s = [getPath(), 'Data', 'MyData_' + today_as_dt + '.txt']
+
+# Moderately tricky, and I'm not sure what it does when I revisited this.
 OutFile = os.path.join(*s)
 
 
