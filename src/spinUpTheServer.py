@@ -7,6 +7,8 @@ from AutoWakerHandler import ServerRequestHandler
 from ConfigHandler import getPath
 from TimeHandler import today
 
+HTTP_OK = "HTTP/1.1 200 OK\r\n\r\n"
+
 
 #  Puts log into a relative location, and adds a day stamp.
 def setupServerLogger():
@@ -46,14 +48,15 @@ def parseDateAndUser(request):
     except:
         return "","-"
 
+    
+#Currently hard coded at port 8888, that will probably conflict with Jupyter. Not sure yet.
 def getHostAndPort():
     return socket.getfqdn(), 8888
 
 def assembleHttpResponse(user, date):
-    http_ok = "HTTP/1.1 200 OK\r\n\r\n"
     our_result_maker = ServerRequestHandler(user = user, date = date)
     json_information = "{\"wakeTime\": \"" + our_result_maker.getWakeTime() + "\"}"
-    return http_ok + json_information
+    return HTTP_OK + json_information
 
 def getListenSocket():
     HOST, PORT = getHostAndPort()
