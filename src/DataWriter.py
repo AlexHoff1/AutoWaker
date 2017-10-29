@@ -7,8 +7,8 @@ LOG = logging.getLogger(name="autoWaker")
 #  Writes the data to file, forcefullly.
 def writeDataToFile(data = None, location = None):
     if location == '':
-        LOG.info('location was empty.')
-        return False
+        LOG.info('Location was empty. Writing to default location "default.txt"')
+        location = 'default.txt'
     try:
         LOG.info('Writing the data to a file.')
         out_file_opened = open(location, 'w')
