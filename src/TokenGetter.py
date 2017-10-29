@@ -60,6 +60,7 @@ class TokenGetter():
         return access_token, refresh_token
     #END getTokens()
     
+    
     #  Writes the new tokens to the file.
     def setTokens(self, access_token, refresh_token):
         LOG.info("Writing new tokens to the config file")
@@ -78,6 +79,7 @@ class TokenGetter():
             LOG.debug('Problem: FileObj didn\'t properly write the tokens!')
             #forceWrite(self.token_loc_, access_token, refresh_token)
     #END setTokens()
+    
     
     #  Writes the new tokens to a file and returns them.
     def refreshTokens(self):
@@ -109,7 +111,8 @@ class TokenGetter():
         #Start the request
         tokenreq = urllib2.Request(self.token_url_, BodyURLEncoded)
         
-        #Add the headers, first we base64 encode the client id and client secret with a : inbetween and create the authorisation header
+        #Add the headers, first we base64 encode the client id and 
+        #client secret with a : inbetween and create the authorisation header
         tokenreq.add_header('Authorization', 'Basic ' + base64.b64encode(OAuthTwoClientID + ":" + ClientOrConsumerSecret))
         tokenreq.add_header('Content-Type', 'application/x-www-form-urlencoded')
         
@@ -119,7 +122,8 @@ class TokenGetter():
             #See what we got back.  If it's this part of  the code it was OK
             full_response = token_response.read()
         
-            #Need to pick out the access token and write it to the config file.  Use a JSON manipluation module
+            #Need to pick out the access token and write it to the config file. 
+            #Use a JSON manipluation module to accomplish this.
             response_json = json.loads(full_response)
         
             #Read the access token as a string
@@ -133,6 +137,8 @@ class TokenGetter():
         except urllib2.URLError as e:
             LOG.info("An error was raised when getting the access token.  Need to stop here")
             LOG.info(e.read())
+            #If this happens at a bad time it might go pretty bad.
+            #Some robust recovery should be added into this.
             return None, None
     #END getNewAccessToken()
 
