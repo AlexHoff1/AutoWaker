@@ -32,9 +32,9 @@ class APIHandler():
         #Start the request
         access_token, refresh_token = self.key_getter_.getTokens()
         LOG.info('The passed access_token to MakeAPICall is ' + str(access_token))
-        req = makeReq(access_token)
+        req = self.makeReq(access_token)
         try:
-            return callAPI(req)
+            return self.callAPI(req)
             
         # Catch errors, e.g. A 401 error that signifies the need for a new access token
         except urllib2.URLError as e:
@@ -51,7 +51,9 @@ class APIHandler():
                 if(refresh_token!=None) and (http_error_message.find("Refresh token invalid: ")):
                     LOG.error('Refresh token was invalid.')
                     raise IOError, 'Need to refresh tokens using new a new auth token.'
-                return self.makeAPICall(access_token, refresh_token)
+                self.key_getter_.setTokens(access_token = access_token, refresh_token = refresh_token)
+                return self.makeAPICall()
+                #return self.makeAPICall(access_token, refresh_token)
             #TODO: catch other errors
             LOG.error('API call failed and it was not out of date tokens.')
             return False, 'ERROR'
