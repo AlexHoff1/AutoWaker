@@ -32,22 +32,13 @@ class APIHandler():
         #Start the request
         access_token, refresh_token = self.key_getter_.getTokens()
         LOG.info('The passed access_token to MakeAPICall is ' + str(access_token))
-        req = urllib2.Request(self.ini_file_)
-        req.add_header('Authorization', 'Bearer ' + access_token)
-        LOG.info("Url is: " + str(self.ini_file_))
+        req = makeReq(access_token)
         try:
-            LOG.info('Trying to open the URL')
-            response = urllib2.urlopen(req)
-            LOG.info('Reading the response')
-            full_response = response.read()
-            writeDataToFile(data = full_response, location = self.out_file_)
-            LOG.info('Call to the URL succeeded.')
-            
-            return True, full_response
+            return callAPI(req)
             
         # Catch errors, e.g. A 401 error that signifies the need for a new access token
         except urllib2.URLError as e:
-            LOG.info('Call to the URL failed.')
+            LOG.info('Initial call to the URL failed.')
             http_error_message = e.read()
             LOG.info('ERROR message: \n   ' + str(http_error_message))
             
@@ -73,7 +64,19 @@ class APIHandler():
         else:
             return api_response
             
-            
+    def callAPI(req):
+        LOG.info('Trying to open the URL')
+        response = urllib2.urlopen(req)
+        LOG.info('Reading the response')
+        full_response = response.read()
+        writeDataToFile(data = full_response, location = self.out_file_)
+        LOG.info('Call to the URL succeeded.')
+        return True, full_response
+    
+    def makeReq(access_token):
+        req = urllib2.Request(self.ini_file_)
+        req.add_header('Authorization', 'Bearer ' + access_token)
+        LOG.info("Url is: " + str(self.ini_file_))
     
     #######CLASS VARIABLES#########
     key_getter_ = None
