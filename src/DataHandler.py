@@ -21,11 +21,20 @@ class DataHandler():
     #  Returns the contents of the file
     #  Throws IOError if anything fails.
     def getData(self, out_file = None):
-        if type(out_file)!=str or out_file == '':
-            return ''  # Theres' no data in it after all
+        
+        #Type checking
+        if type(out_file)!=str:
+            raise IOError, str(out_file) + ' was not passed as a string type.'
+        elif out_file == '':
+            return ''
+        
         LOG.info('Opening the file: ' + str(out_file))
+        
         try:
-            File = open(out_file, 'r')
+            try:
+                File = open(out_file, 'r')
+            except IOError:
+                raise IOError, 'Can not open the file.'
             LOG.info('Reading from the file')
             data = File.read()
             LOG.info('Closing the file.')
