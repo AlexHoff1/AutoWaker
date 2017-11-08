@@ -1,1 +1,1 @@
-C:\Users\Owner\Desktop\Code\AutoWaker
+../
