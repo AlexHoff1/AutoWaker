@@ -33,7 +33,7 @@ class TokenGetter():
         LOG.info('Trying to open the file containing the Tokens.')
         try:
             file_obj = open(self.token_loc_, 'r')
-            LOG.info('Trying to retrieve the data.')
+            LOG.info('Trying to retrieve the data. Opened file successfully.')
             access_token, refresh_token = file_obj.read().splitlines()
         except:
             LOG.debug('current token file ' + str(self.token_loc_) + ' is invalid.')
@@ -129,11 +129,15 @@ class TokenGetter():
             return None, None
     #END getNewAccessToken()
 
+    #Copy the old tokens to a temp file, just in case.
     def copyOld(self):
-        access_token, refresh_token = getTokens()
+        access_token, refresh_token = self.getTokens()
+        
+        #Temp location to write to
         fid = open('./tempOldTokens','w')
         fid.write(access_token + "\n" + refresh_token)
         fid.close()
+    #END copyOld()
     
     ############CLASS VARIABLES##############
     token_loc_ = ''
