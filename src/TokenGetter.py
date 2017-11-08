@@ -123,7 +123,7 @@ class TokenGetter():
         
         except urllib2.URLError as e:
             LOG.info("An error was raised when getting the access token.  Need to stop here")
-            LOG.info(e.read())
+            LOG.error(e.read())
             #If this happens at a bad time it might go pretty bad.
             #Some robust recovery should be added into this.
             return None, None
@@ -134,9 +134,12 @@ class TokenGetter():
         access_token, refresh_token = self.getTokens()
         
         #Temp location to write to
-        fid = open('./tempOldTokens','w')
-        fid.write(access_token + "\n" + refresh_token)
-        fid.close()
+        try:
+            fid = open('./tempOldTokens','w')
+            fid.write(access_token + "\n" + refresh_token)
+            fid.close()
+        except:
+            LOG.warning("Writing to temporary file failed.")
     #END copyOld()
     
     ############CLASS VARIABLES##############
