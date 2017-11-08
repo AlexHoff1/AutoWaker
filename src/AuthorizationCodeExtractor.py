@@ -1,4 +1,5 @@
 import cherrypy
+import logging
 import os
 import sys
 import threading
@@ -11,6 +12,8 @@ from oauthlib.oauth2.rfc6749.errors import MismatchingStateError, MissingTokenEr
 
 from TokenGetter import TokenGetter
 from ClientSecretExtractor import getClientSecret
+
+LOG = logging.getLogger(name="autoWaker")
 
 class OAuth2Server:
     def __init__(self, client_id, client_secret,
@@ -73,6 +76,7 @@ class OAuth2Server:
 
 
 def setupTokens():
+    LOG.info('Trying to initially setup tokens.')
     client_id = '228FD6'
     client_secret = getClientSecret()
 
@@ -86,5 +90,6 @@ def setupTokens():
         if key == 'access_token':
             access_token = value
     
+    LOG.info('Successfully extracted tokens and establishing the token location.')
     token_getter = TokenGetter('tokens.txt')
     token_getter.setTokens(access_token = access_token, refresh_token = refresh_token)
