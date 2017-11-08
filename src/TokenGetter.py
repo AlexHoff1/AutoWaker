@@ -33,28 +33,15 @@ class TokenGetter():
         LOG.info('Trying to open the file containing the Tokens.')
         try:
             file_obj = open(self.token_loc_, 'r')
+            LOG.info('Trying to retrieve the data.')
+            access_token, refresh_token = file_obj.read().splitlines()
         except:
             LOG.debug('current token file ' + str(self.token_loc_) + ' is invalid.')
             raise IOError
         
         #Read first two lines - first is the access token, second is the refresh token
-        LOG.info('Trying to retrieve the data.')
-        try:
-            access_token = file_obj.readline()
-        except:
-            file_obj.close()
-            return '', ''
-        try:
-            refresh_token = file_obj.readline()
-        except:
-            file_obj.close()
-            return access_token, ''
         file_obj.close()
         LOG.info('Successfully closed the file that contains current tokens.')
-        
-        LOG.info('Stripping the newline and whitespace from tokens.')
-        access_token = access_token.strip()
-        refresh_token = refresh_token.strip()
         
         #Return values
         return access_token, refresh_token
@@ -70,9 +57,9 @@ class TokenGetter():
             LOG.debug('At least one token passed was none type. Check the rest of the logs for errors.')
             raise IOError
         try:
+            self.copyOld()
             file_obj = open(self.token_loc_, 'w')  #NOTE: This deletes old file!
-            file_obj.write(access_token + "\n")
-            file_obj.write(refresh_token + "\n")
+            file_obj.write(access_token + "\n" + refresh_token)
             file_obj.close()
             
         except:
@@ -142,7 +129,12 @@ class TokenGetter():
             return None, None
     #END getNewAccessToken()
 
-
+    def copyOld(self):
+        access_token, refresh_token = getTokens()
+        fid = open('./tempOldTokens','w')
+        fid.write(access_token + "\n" + refresh_token)
+        fid.close()
+    
     ############CLASS VARIABLES##############
     token_loc_ = ''
     token_url_ = "https://api.fitbit.com/oauth2/token"
