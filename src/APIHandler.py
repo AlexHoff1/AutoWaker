@@ -22,7 +22,15 @@ class APIHandler():
         self.ini_file_ = ini_file
         self.out_file_ = out_file
         self.key_getter_ = key_getter
+    
+    @classmethod
+    def fromfilename(cls, filename):
+        data = open(filename).readlines()
+        self.ini_file_ = data[0].strip()
+        self.out_file_ = data[1].strip()
+        self.key_getter_ = TokenGetter(data[2].strip())
         
+    
     #  This makes an API call to retrieve data from fitbit.
     #  Returns:
     #   callSucceeded, callData
